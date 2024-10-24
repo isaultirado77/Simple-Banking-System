@@ -26,8 +26,16 @@ def create_an_account():
     pass
 
 
+def generate_random_int_sequence(n: int = 5) -> str:
+    return ''.join(str(randint(0, 9)) for _ in range(n))
+
+
+def generate_card_id() -> str:
+    return '400000' + generate_random_int_sequence(10)
+
+
 def generate_pin() -> str:
-    return ''.join(str(randint(0, 9)) for _ in range(4))
+    return generate_random_int_sequence(4)
 
 
 def create_card():
@@ -40,13 +48,18 @@ class Card:
         self.pin = pin
 
 
+class Account:
+    def __init__(self, card: Card):
+        self.card = card
+
+
 def log_into_account():
     pass
 
 
 def main() -> None:
-    pin = generate_pin()
-    print(pin)
+    print(generate_card_id())
+    print(generate_pin())
     pass
 
 
