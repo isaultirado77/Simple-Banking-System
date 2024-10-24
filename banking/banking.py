@@ -22,10 +22,6 @@ def read_main_menu_option() -> int:
             print(f'Error: {me.message}')
 
 
-def create_an_account():
-    pass
-
-
 def generate_random_int_sequence(n: int = 5) -> str:
     return ''.join(str(randint(0, 9)) for _ in range(n))
 
@@ -38,19 +34,37 @@ def generate_pin() -> str:
     return generate_random_int_sequence(4)
 
 
-def create_card():
-    pass
-
-
 class Card:
     def __init__(self, id: str, pin: str):
         self.id = id
         self.pin = pin
 
+    @staticmethod
+    def generate_card() -> 'Card':
+        id = generate_card_id()
+        pin = generate_pin()
+        card = Card(id, pin)
+        return card
+
+    def __str__(self):
+        return f'id: {self.id}\npin: {self.pin}\n'
+
 
 class Account:
-    def __init__(self, card: Card):
+    def __init__(self, card: Card, balance: int = 0):
         self.card = card
+        self.balance = balance
+
+    @staticmethod
+    def generate_account() -> 'Account':
+        card = Card.generate_card()
+        return Account(card)
+
+    def display_balance(self):
+        print(f'\nBalance: {self.balance}\n')
+
+    def __str__(self):
+        return self.card.__str__() + f'Balance: {self.balance}'
 
 
 def log_into_account():
@@ -58,8 +72,8 @@ def log_into_account():
 
 
 def main() -> None:
-    print(generate_card_id())
-    print(generate_pin())
+    a = Account.generate_account()
+    a.display_balance()
     pass
 
 
