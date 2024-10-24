@@ -55,6 +55,15 @@ class Account:
         self.card = card
         self.balance = balance
 
+    def get_id(self) -> str:
+        return self.card.id
+
+    def get_pin(self) -> str:
+        return self.card.pin
+
+    def get_balance(self) -> int:
+        return self.balance
+
     @staticmethod
     def generate_account() -> 'Account':
         card = Card.generate_card()
@@ -67,18 +76,35 @@ class Account:
         return self.card.__str__() + f'Balance: {self.balance}'
 
 
+class AccountRepositoryError(Exception):
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
+
+
 class AccountRepository:
     def __init__(self):
-        self.repository = []
+        self.repository = {}
 
     def add_account(self, account: Account) -> None:
-        pass
+        if account.card.id in self.repository:
+            raise AccountRepositoryError("Account with this card ID already exists.")
+        self.repository[account.card.id] = account
 
-    def get_account(self, id: str, pin: str) -> 'Account':
-        pass
+    def get_account_by_id(self, id: str, pin: str) -> 'Account':
+        if id in self.repository:
+            if self.repository[id].get_pin() == pin:
+                return self.repository[id]
+        raise AccountRepositoryError("Wrong card number or PIN!")
+
+    def remove_account(self, id: str) -> None:
+        if id in self.repository:
+            del self.repository[id]
+        else:
+            raise AccountRepositoryError("Account not found.")
 
 
-def create_account() -> None:
+def create_account() -> 'Account':
     account = Account.generate_account()
     text = (
         "Your card has been created\n"
@@ -86,11 +112,17 @@ def create_account() -> None:
         f"Your card PIN: {account.card.pin}"
     )
     print(text)
+    return account
 
 
 def log_into_account() -> None:
-    id = int(input('Enter your card number:'))
-    pin = int(input('Enter your PIN:'))
+    try:
+        id = int(input('Enter your card number:'))
+        pin = int(input('Enter your PIN:'))
+    except ValueError:
+        print("Error: Enter a valid number. ")
+    except AccountRepositoryError as ace:
+        print(f"Error: {ace.message}")
 
 
 main_menu_options = {
