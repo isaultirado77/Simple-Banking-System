@@ -67,13 +67,39 @@ class Account:
         return self.card.__str__() + f'Balance: {self.balance}'
 
 
-def log_into_account():
-    pass
+class AccountRepository:
+    def __init__(self):
+        self.repository = []
+
+    def add_account(self, account: Account) -> None:
+        pass
+
+    def get_account(self, id: str, pin: str) -> 'Account':
+        pass
+
+
+def create_account() -> None:
+    account = Account.generate_account()
+    text = (
+        "Your card has been created\n"
+        f"Your card number: {account.card.id}\n"
+        f"Your card PIN: {account.card.pin}"
+    )
+    print(text)
+
+
+def log_into_account() -> None:
+    id = int(input('Enter your card number:'))
+    pin = int(input('Enter your PIN:'))
+
+
+main_menu_options = {
+    1: create_account(),
+    2: log_into_account()
+}
 
 
 def main() -> None:
-    a = Account.generate_account()
-    a.display_balance()
     pass
 
 
