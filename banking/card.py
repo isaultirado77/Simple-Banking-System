@@ -24,5 +24,13 @@ class Card:
         pin = generate_pin()
         return Card(id, pin)
 
+    def display_generated_card(self) -> None:
+        text = (
+            "\nYour card has been created\n"
+            f"Your card number:\n{self.id}\n"
+            f"Your card PIN:\n{self.pin}\n"
+        )
+        print(text)
+
     def __str__(self):
         return f'Your card number:\n{self.id}\nYour card PIN:\n{self.pin}\n'
