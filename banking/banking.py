@@ -30,7 +30,8 @@ class BankManager:
         except AccountRepositoryError as ace:
             print(f"Error: {ace.message}")
 
-    def logged(self, account: Account) -> None:
+    @classmethod
+    def logged(cls, account: Account) -> None:
         print('\nYou have successfully logged in!\n')
         menu_text = '1. Balance\n2. Log Out\n0. Exit'
 
@@ -38,8 +39,12 @@ class BankManager:
             try:
                 option = int(input(menu_text))
 
-                if option in (0, 1, 2):
-                    pass
+                if option == 0:
+                    break
+                elif option == 1:
+                    account.display_balance()
+                elif option == 2:
+                    break
                 else:
                     raise MenuError("Option must be 0, 1 or 2.")
 
