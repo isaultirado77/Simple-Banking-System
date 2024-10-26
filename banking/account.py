@@ -6,6 +6,9 @@ class Account:
         self.card = card
         self.balance = balance
 
+    def get_card(self):
+        return self.card
+
     def get_id(self) -> str:
         return self.card.id
 

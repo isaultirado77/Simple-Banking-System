@@ -1,7 +1,10 @@
+from bank import BankManager
+
+
 def main() -> None:
-    pass
+    manager = BankManager()
+    manager.run()
 
 
 if __name__ == '__main__':
     main()
-    pass
