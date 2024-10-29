@@ -10,7 +10,9 @@ GET_CARD_BY_NUMBER = "SELECT * FROM card WHERE number = ?; "
 
 
 def connect():
-    return sqlite3.connect('card.s3db')
+    connection = sqlite3.connect('card.s3db')
+    create_table(connection)  # Create table if it not exists
+    return connection
 
 
 def create_table(connection):

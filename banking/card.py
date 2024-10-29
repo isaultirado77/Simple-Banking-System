@@ -18,12 +18,12 @@ def calculate_luhn_sum(uncompleted_id: str) -> int:
     return total_sum
 
 
-def get_control_number(uncompleted_id: str) -> int:
-    total_sum = calculate_luhn_sum(uncompleted_id)
+def get_control_number(uncompleted_number: str) -> int:
+    total_sum = calculate_luhn_sum(uncompleted_number)
     return (10 - (total_sum % 10)) % 10
 
 
-def generate_card_id() -> str:
+def generate_card_number() -> str:
     base_id = '400000' + generate_random_int_sequence(9)
     control_number = get_control_number(base_id)
     return base_id + str(control_number)
@@ -34,23 +34,23 @@ def generate_pin() -> str:
 
 
 class Card:
-    def __init__(self, id: str, pin: str):
-        self.id = id
+    def __init__(self, number: str, pin: str):
+        self.number = number
         self.pin = pin
 
     @staticmethod
     def generate_card() -> 'Card':
-        id = generate_card_id()
+        number = generate_card_number()
         pin = generate_pin()
-        return Card(id, pin)
+        return Card(number, pin)
 
     def display_generated_card(self) -> None:
         text = (
             "\nYour card has been created\n"
-            f"Your card number:\n{self.id}\n"
+            f"Your card number:\n{self.number}\n"
             f"Your card PIN:\n{self.pin}\n"
         )
         print(text)
 
     def __str__(self):
-        return f'Your card number:\n{self.id}\nYour card PIN:\n{self.pin}\n'
+        return f'Your card number:\n{self.number}\nYour card PIN:\n{self.pin}\n'

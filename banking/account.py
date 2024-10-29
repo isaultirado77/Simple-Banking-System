@@ -1,4 +1,8 @@
+import sqlite3
+
 from card import Card
+from database import connect, create_table, add_card, get_card_by_number
+from typing import Optional
 
 
 class Account:
@@ -6,11 +10,11 @@ class Account:
         self.card = card
         self.balance = balance
 
-    def get_card(self):
+    def get_card(self) -> 'Card':
         return self.card
 
-    def get_id(self) -> str:
-        return self.card.id
+    def get_card_number(self) -> str:
+        return self.card.number
 
     def get_pin(self) -> str:
         return self.card.pin
@@ -38,10 +42,14 @@ class AccountRepositoryError(Exception):
 
 class AccountRepository:
     def __init__(self):
-        self.repository = {}
+        self.connection = connect()
 
     def add_account(self, account: Account) -> None:
-        pass
+        try:
+            add_card(self.connection, account.get_card_number(), account.get_pin(), account.get_balance())
+
+        except sqlite3.IntegrityError:
+            raise AccountRepositoryError("Account with this card ID already exists.")
 
     def get_account_by_id(self, id: str, pin: str) -> 'Account':
         pass
