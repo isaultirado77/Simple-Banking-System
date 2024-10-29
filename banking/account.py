@@ -41,18 +41,10 @@ class AccountRepository:
         self.repository = {}
 
     def add_account(self, account: Account) -> None:
-        if account.card.id in self.repository:
-            raise AccountRepositoryError("Account with this card ID already exists.")
-        self.repository[account.card.id] = account
+        pass
 
     def get_account_by_id(self, id: str, pin: str) -> 'Account':
-        if id in self.repository:
-            if self.repository[id].get_pin() == pin:
-                return self.repository[id]
-        raise AccountRepositoryError("Wrong card number or PIN!")
+        pass
 
     def remove_account(self, id: str) -> None:
-        if id in self.repository:
-            del self.repository[id]
-        else:
-            raise AccountRepositoryError("Account not found.")
+        pass

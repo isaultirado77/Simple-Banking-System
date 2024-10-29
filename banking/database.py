@@ -1,6 +1,6 @@
 import sqlite3
 
-CREATE_CARD_TABLE = "CREATE TABLE IF NOT EXISTS card (id INTEGER PRIMARY KEY, number TEXT, pin TEXT, balance INTEGER DEFAULT 0); "
+CREATE_CARD_TABLE = "CREATE TABLE IF NOT EXISTS card (id INTEGER PRIMARY KEY AUTOINCREMENT, number TEXT, pin TEXT, balance INTEGER DEFAULT 0);"
 
 INSERT_CARD = "INSERT INTO card (id, number, pin, balance) VALUES (?, ?, ?, ?); "
 
@@ -14,10 +14,11 @@ def connect():
 
 
 def create_table(connection):
-    with connection: connection.execute(CREATE_CARD_TABLE)
+    with connection:
+        connection.execute(CREATE_CARD_TABLE)
 
 
-def add_card(connection, number, pin, balance):
+def add_card(connection, number, pin, balance=0):
     with connection:
         connection.execute(INSERT_CARD, (number, pin, balance))
 
@@ -30,4 +31,3 @@ def get_all_cards(connection):
 def get_card_by_number(connection, number):
     with connection:
         return connection.execute(GET_CARD_BY_NUMBER, (number,)).fetchall()
-
