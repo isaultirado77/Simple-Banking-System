@@ -2,7 +2,7 @@ import sqlite3
 
 CREATE_CARD_TABLE = "CREATE TABLE IF NOT EXISTS card (id INTEGER PRIMARY KEY AUTOINCREMENT, number TEXT, pin TEXT, balance INTEGER DEFAULT 0);"
 
-INSERT_CARD = "INSERT INTO card (id, number, pin, balance) VALUES (?, ?, ?, ?); "
+INSERT_CARD = "INSERT INTO card (number, pin, balance) VALUES (?, ?, ?); "
 
 GET_ALL_CARDS = "SELECT * FROM card; "
 

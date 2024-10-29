@@ -57,9 +57,9 @@ class BankManager:
 
     def log_into_account(self) -> None:
         try:
-            id = input('\nEnter your card number: ')
+            card_number = input('\nEnter your card number: ')
             pin = input('Enter your PIN: ')
-            account = self.repository.get_account_by_id(id, pin)
+            account = self.repository.get_account_by_card_number(card_number, pin)
             self.bank_state = BankState.ACCOUNT_LOGGED_IN
             self.logged(account)
         except ValueError:
