@@ -8,6 +8,8 @@ GET_ALL_CARDS = "SELECT * FROM card; "
 
 GET_CARD_BY_NUMBER = "SELECT * FROM card WHERE number = ?; "
 
+DELETE_CARD = "DELETE FROM card WHERE number = ?;"
+
 
 def connect():
     connection = sqlite3.connect('card.s3db')
@@ -23,6 +25,13 @@ def create_table(connection):
 def add_card(connection, number, pin, balance=0):
     with connection:
         connection.execute(INSERT_CARD, (number, pin, balance))
+
+
+def delete_card(connection, number):
+    with connection:
+        cursor = connection.execute(DELETE_CARD, (number,))
+        if cursor.rowcount == 0:
+            print("Account not found.")
 
 
 def get_all_cards(connection):

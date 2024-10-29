@@ -1,7 +1,7 @@
 import sqlite3
 
 from card import Card
-from database import connect, create_table, add_card, get_card_by_number
+from database import connect, add_card, get_card_by_number, delete_card
 from typing import Optional
 
 
@@ -51,8 +51,11 @@ class AccountRepository:
         except sqlite3.IntegrityError:
             raise AccountRepositoryError("Account with this card ID already exists.")
 
-    def get_account_by_id(self, id: str, pin: str) -> 'Account':
-        pass
+    def get_account_by_card_number(self, number: str, pin: str) -> Optional['Account']:
+        result = get_card_by_number(self.connection, number)
+        if result and result[0][2] == pin:
+            return Account(Card(number=result[0][1], pin=result[0][2]), balance=result[0][3])
+        raise AccountRepositoryError("Wrong card number or PIN!")
 
-    def remove_account(self, id: str) -> None:
-        pass
+    def remove_account(self, number: str) -> None:
+        delete_card(self.connection, number)
