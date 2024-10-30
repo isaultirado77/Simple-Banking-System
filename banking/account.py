@@ -1,7 +1,7 @@
 import sqlite3
 
 from card import Card
-from database import connect, add_card, get_card_by_number, delete_card
+from database import connect, add_card, get_card_by_number, delete_card, add_income_to_card, deduct_from_card_balance
 from typing import Optional
 
 
@@ -59,3 +59,9 @@ class AccountRepository:
 
     def remove_account(self, number: str) -> None:
         delete_card(self.connection, number)
+
+    def add_income_to_card(self, number: str, income) -> None:
+        add_income_to_card(self.connection, number, income)
+
+    def deduct_from_card_balance(self, number: str, deduct) -> None:
+        deduct_from_card_balance(self.connection, number, deduct)

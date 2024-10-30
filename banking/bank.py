@@ -91,3 +91,12 @@ class BankManager:
     def exit_application(self) -> None:
         print('Bye!')
         self.bank_state = BankState.EXIT
+
+    def add_income(self) -> None:
+        pass
+
+    def do_transfer(self) -> None:
+        pass
+
+    def close_account(self) -> None:
+        pass
