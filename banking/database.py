@@ -10,9 +10,11 @@ GET_CARD_BY_NUMBER = "SELECT * FROM card WHERE number = ?; "
 
 DELETE_CARD = "DELETE FROM card WHERE number = ?;"
 
-ADD_INCOME_TO_CARD = "UPDATE card SET balance = balance + ? WHERE number = ?"
+ADD_INCOME_TO_CARD = "UPDATE card SET balance = balance + ? WHERE number = ?; "
 
-DEDUCT_FROM_CARD_BALANCE = "UPDATE card SET balance = balance - ? WHERE number = ?"
+CARD_EXISTS = "SELECT EXISTS(SELECT 1 FROM card WHERE number = ?);"
+
+DEDUCT_FROM_CARD_BALANCE = "UPDATE card SET balance = balance - ? WHERE number = ?; "
 
 
 def connect():
@@ -58,3 +60,9 @@ def withdraw_from_card(connection, number, deduct):
         cursor = connection.execute(DEDUCT_FROM_CARD_BALANCE, (deduct, number))
         if cursor.rowcount == 0:
             print("Such a card does not exist..")
+
+
+def card_exists(connection, number) -> bool:
+    with connection:
+        result = connection.execute(CARD_EXISTS, (number,)).fetchone()
+        return result[0] == 1

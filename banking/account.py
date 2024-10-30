@@ -1,7 +1,8 @@
 import sqlite3
 
 from card import Card
-from database import connect, add_card, get_card_by_number, delete_card, add_income_to_card, withdraw_from_card
+from database import connect, add_card, get_card_by_number, delete_card, add_income_to_card, withdraw_from_card, \
+    card_exists
 from typing import Optional
 
 
@@ -65,3 +66,6 @@ class AccountRepository:
 
     def withdraw_from_card(self, number: str, deduct) -> None:
         withdraw_from_card(self.connection, number, deduct)
+
+    def card_exists(self, number: str) -> bool:
+        return card_exists(self.connection, number)

@@ -102,21 +102,29 @@ class BankManager:
             print("\nError: Enter a valid income.\n")
 
     def do_transfer(self, account: 'Account') -> None:
-        print('\nTransfer\n')
+        print('\nTransfer')
         while True:
             receiver_number = input('Enter card number: \n')
+
+
             if receiver_number == account.get_card_number():
                 print('You can\'t transfer money to the same account!\n')
                 return
             elif not is_valid_luhn_number(receiver_number):
                 print('\nProbably you made a mistake in the card number. Please try again!\n')
+                break
+            elif not self.repository.card_exists(receiver_number):
+                print('Such a card does not exist.')
+                return
             else:
                 transfer = int(input('Enter how much money you want to transfer:\n'))
-                if transfer > account.get_balance():
-                    print('\nNot enough money!\n')
+                updated_account = self.repository.get_account_by_card_number(account.get_card_number(), account.get_pin())
+                if transfer > updated_account.get_balance():
+                    print('\nNot enough money!')
                     return
                 self.repository.add_income_to_card(receiver_number, transfer)
                 self.repository.withdraw_from_card(account.get_card_number(), transfer)
+                print('Success!')
                 return
 
     def close_account(self, account: 'Account') -> None:
