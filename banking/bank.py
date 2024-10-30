@@ -68,17 +68,23 @@ class BankManager:
             print(f"\nError: {ace.message}\n")
 
     def logged(self, account: Account) -> None:
-        print('\nYou have successfully logged in!\n')
-        menu_text = '1. Balance\n2. Log Out\n0. Exit\n'
+        print('\nYou have successfully logged in!')
+        menu_text = '\n1. Balance\n2. Add income\n3. Do transfer\n4. Close account\n5. Log Out\n0. Exit\n'
 
         while self.bank_state == BankState.ACCOUNT_LOGGED_IN:
-            option = read_menu_options(menu_text, (0, 1, 2))
+            option = read_menu_options(menu_text, (0, 1, 2, 3, 4, 5))
 
             if option == 0:
                 self.exit_application()
             elif option == 1:
                 account.display_balance()
             elif option == 2:
+                pass
+            elif option == 3:
+                pass
+            elif option == 4:
+                pass
+            elif option == 5:
                 print('\nYou have successfully logged out!\n')
                 self.bank_state = BankState.MAIN_MENU
 
