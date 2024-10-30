@@ -53,6 +53,8 @@ def add_income_to_card(connection, number, income):
         connection.execute(ADD_INCOME_TO_CARD, (income, number))
 
 
-def deduct_from_card_balance(connection, number, deduct):
+def withdraw_from_card(connection, number, deduct):
     with connection:
-        connection.execute(DEDUCT_FROM_CARD_BALANCE, (deduct, number))
+        cursor = connection.execute(DEDUCT_FROM_CARD_BALANCE, (deduct, number))
+        if cursor.rowcount == 0:
+            print("Such a card does not exist..")

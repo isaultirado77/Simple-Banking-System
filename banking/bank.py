@@ -1,6 +1,7 @@
 from enum import Enum
 
 from account import Account, AccountRepository, AccountRepositoryError
+from card import is_valid_luhn_number
 
 
 class MenuError(Exception):
@@ -79,11 +80,11 @@ class BankManager:
             elif option == 1:
                 account.display_balance()
             elif option == 2:
-                pass
+                self.add_income(account)
             elif option == 3:
-                pass
+                self.do_transfer(account)
             elif option == 4:
-                pass
+                self.close_account(account)
             elif option == 5:
                 print('\nYou have successfully logged out!\n')
                 self.bank_state = BankState.MAIN_MENU
@@ -102,10 +103,21 @@ class BankManager:
 
     def do_transfer(self, account: 'Account') -> None:
         print('\nTransfer\n')
-        receiver_number = input('Enter card number: \n')
-        if receiver_number == account.get_card_number():
-            print('You can\'t transfer money to the same account!\n')
-            return
+        while True:
+            receiver_number = input('Enter card number: \n')
+            if receiver_number == account.get_card_number():
+                print('You can\'t transfer money to the same account!\n')
+                return
+            elif not is_valid_luhn_number(receiver_number):
+                print('\nProbably you made a mistake in the card number. Please try again!\n')
+            else:
+                transfer = int(input('Enter how much money you want to transfer:\n'))
+                if transfer > account.get_balance():
+                    print('\nNot enough money!\n')
+                    return
+                self.repository.add_income_to_card(receiver_number, transfer)
+                self.repository.withdraw_from_card(account.get_card_number(), transfer)
+                return
 
     def close_account(self, account: 'Account') -> None:
         self.repository.remove_account(account.get_card_number())

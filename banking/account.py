@@ -1,7 +1,7 @@
 import sqlite3
 
 from card import Card
-from database import connect, add_card, get_card_by_number, delete_card, add_income_to_card, deduct_from_card_balance
+from database import connect, add_card, get_card_by_number, delete_card, add_income_to_card, withdraw_from_card
 from typing import Optional
 
 
@@ -63,5 +63,5 @@ class AccountRepository:
     def add_income_to_card(self, number: str, income) -> None:
         add_income_to_card(self.connection, number, income)
 
-    def deduct_from_card_balance(self, number: str, deduct) -> None:
-        deduct_from_card_balance(self.connection, number, deduct)
+    def withdraw_from_card(self, number: str, deduct) -> None:
+        withdraw_from_card(self.connection, number, deduct)
