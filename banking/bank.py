@@ -92,11 +92,20 @@ class BankManager:
         print('Bye!')
         self.bank_state = BankState.EXIT
 
-    def add_income(self) -> None:
-        pass
+    def add_income(self, account: 'Account') -> None:
+        try:
+            income = int(input('\nEnter income: \n'))
+            self.repository.add_income_to_card(account.get_card_number(), income)
+            print("Income was added!")
+        except ValueError:
+            print("\nError: Enter a valid income.\n")
 
-    def do_transfer(self) -> None:
-        pass
+    def do_transfer(self, account: 'Account') -> None:
+        print('\nTransfer\n')
+        receiver_number = input('Enter card number: \n')
+        if receiver_number == account.get_card_number():
+            print('You can\'t transfer money to the same account!\n')
+            return
 
-    def close_account(self) -> None:
-        pass
+    def close_account(self, account: 'Account') -> None:
+        self.repository.remove_account(account.get_card_number())

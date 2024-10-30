@@ -18,6 +18,23 @@ def calculate_luhn_sum(uncompleted_id: str) -> int:
     return total_sum
 
 
+def is_valid_luhn_number(number: str) -> bool:
+    total_sum = 0
+    reverse_number = number[::-1]
+
+    for index, digit in enumerate(reverse_number):
+        digit = int(digit)
+
+        if index % 2 == 1:
+            digit *= 2
+            if digit > 9:
+                digit -= 9
+
+        total_sum += digit
+
+    return total_sum % 10 == 0
+
+
 def get_control_number(uncompleted_number: str) -> int:
     total_sum = calculate_luhn_sum(uncompleted_number)
     return (10 - (total_sum % 10)) % 10
